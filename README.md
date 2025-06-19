@@ -1,3 +1,30 @@
+# AI 기반 투자 리포트 대시보드
+
+AI가 요약해주는 투자 리포트와 금융 데이터 시각화 대시보드
+
+## 주요 기능
+- 관심 산업/기업/ETF에 대한 AI 투자 리포트 요약
+- 주가, PER, PBR 등 금융 데이터 차트 시각화
+- 트렌드 분석 및 Top 5 종목 추천
+- 반응형 카드 UI, SSR/SSG 기반 SEO 최적화
+
+## 기술 스택
+- Next.js (App Router), React, Tailwind CSS
+- Recharts, SWR
+- OpenAI API (더미 데이터로 대체 가능)
+- Vercel 배포
+
+## 실행 방법
+```bash
+git clone https://github.com/본인계정/ai-invest-dashboard.git
+cd ai-invest-dashboard
+npm install
+npm run dev
+```
+
+## 배포 주소
+- https://ai-invest-dashboard.vercel.app
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
