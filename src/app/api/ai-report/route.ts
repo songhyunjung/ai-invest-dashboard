@@ -42,7 +42,8 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
     const summary = data.choices?.[0]?.message?.content || 'AI 리포트 생성에 실패했습니다.';
     return NextResponse.json({ summary });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
