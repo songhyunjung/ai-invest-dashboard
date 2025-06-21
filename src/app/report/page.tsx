@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import DummyChart from "@/components/DummyChart";
+import StockChart from "@/components/StockChart";
 
 export default function ReportPage() {
   const [query, setQuery] = useState("");
@@ -11,13 +11,24 @@ export default function ReportPage() {
     e.preventDefault();
     setLoading(true);
     setResult("");
-    // 실제 API 호출 대신 더미 데이터 사용
-    setTimeout(() => {
-      setResult(
-        `"${query}"에 대한 AI 투자 리포트 예시입니다.\n\n- 산업 동향: 최근 ${query} 관련 시장이 빠르게 성장 중입니다.\n- 주요 이슈: 글로벌 공급망, 기술 혁신, 정책 변화 등\n- 투자 포인트: 성장성, 수익성, 리스크 요인 분석\n- 결론: 중장기적으로 긍정적 전망이나, 단기 변동성 주의 필요`
-      );
-      setLoading(false);
-    }, 1000);
+    try {
+      const response = await fetch("/api/ai-report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query }),
+      });
+      const data = await response.json();
+      if (data.summary) {
+        setResult(data.summary);
+      } else if (data.error) {
+        setResult("에러: " + data.error);
+      } else {
+        setResult("알 수 없는 에러가 발생했습니다.");
+      }
+    } catch (err) {
+      setResult("네트워크 에러가 발생했습니다.");
+    }
+    setLoading(false);
   };
 
   return (
@@ -44,7 +55,7 @@ export default function ReportPage() {
         <div className="bg-gray-50 border rounded p-4 mt-2 whitespace-pre-line">
           {result}
           <div className="mt-6">
-            <DummyChart />
+            <StockChart symbol={query} />
           </div>
         </div>
       )}
