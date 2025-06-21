@@ -22,7 +22,7 @@ export default function StockChart({ symbol }: StockChartProps) {
         } else {
           setError("데이터를 불러올 수 없습니다.");
         }
-      } catch (err) {
+      } catch {
         setError("차트 로딩 중 오류가 발생했습니다.");
       } finally {
         setLoading(false);
