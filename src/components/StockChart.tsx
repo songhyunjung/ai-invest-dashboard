@@ -13,14 +13,20 @@ export default function StockChart({ symbol }: StockChartProps) {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log("StockChart: Fetching data for symbol:", symbol);
       try {
-        const response = await fetch(`/api/stock-data?symbol=${symbol}`);
+        const response = await fetch(`/api/stock-data?symbol=${encodeURIComponent(symbol)}`);
         const result = await response.json();
+        
+        console.log("StockChart: API response:", result);
         
         if (result.chartData) {
           setData(result.chartData);
+          console.log("StockChart: Chart data set:", result.chartData);
+          console.log("StockChart: First data point:", result.chartData[0]);
+          console.log("StockChart: Last data point:", result.chartData[result.chartData.length - 1]);
         } else {
-          setError("데이터를 불러올 수 없습니다.");
+          setError(`데이터를 불러올 수 없습니다. (${result.error || '알 수 없는 오류'})`);
         }
       } catch {
         setError("차트 로딩 중 오류가 발생했습니다.");
@@ -34,7 +40,7 @@ export default function StockChart({ symbol }: StockChartProps) {
     }
   }, [symbol]);
 
-  if (loading) return <div className="text-center py-4">차트 로딩 중...</div>;
+  if (loading) return <div className="text-center py-4">차트 로딩 중... (심볼: {symbol})</div>;
   if (error) return <div className="text-center py-4 text-red-500">{error}</div>;
 
   return (
